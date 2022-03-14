@@ -2,7 +2,6 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from django.dispatch import receiver
 from django.db.models.signals import post_save
-from rest_framework.authtoken.models import Token
 from django.contrib.auth.models import User
 from django.conf import settings
 from django_countries.fields import CountryField
@@ -15,13 +14,16 @@ CATEGORY_CHOICES = (
 )
 
 # user model
+
 class UserProfile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     customer_id  = models.CharField(max_length=50, blank=True, null=True) 
 
     def __str__(self):
         return self.user.username
-# item model
+        
+#item model
+
 class Item(models.Model):
     title = models.CharField(max_length=250)
     price = models.FloatField(max_length=50)
@@ -30,7 +32,9 @@ class Item(models.Model):
 
     def __str__(self):
         return self.title
+
 # OrderItem model
+
 class OrderItem(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
     ordered = models.BooleanField(default=False)
@@ -43,20 +47,21 @@ class OrderItem(models.Model):
 # total amount
     def get_total_item_price(self):
         return self.quantity * self.item.price
+
 # discount price amount
     def get_total_discount_item_price(self):
         return self.quantity * self.item.discount_price
 
     def get_amount_saved(self):
         return self.get_total_item_price() - self.get_total_discount_item_price()
+
 # Final amount
     def get_final_price(self):
         if self.item.discount_price:
             return self.get_total_discount_item_price()
         return self.get_total_item_price()
 
-# Order model
-
+#Order model
 class Order(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
     items = models.ManyToManyField(OrderItem)
@@ -85,6 +90,8 @@ class Address(models.Model):
 
     def __str__(self):
         return self.user.username
+
+        
 # Payment model
 class Payment(models.Model):
     charge_id = models.CharField(max_length=50)
@@ -96,7 +103,7 @@ class Payment(models.Model):
         return self.user.username
 
 def userprofile_receiver(sender, instance, created, *args, **kwargs):
-    if created:
+    if created: 
         userprofile = UserProfile.objects.create(user=instance)
 
 post_save.connect(userprofile_receiver, sender=settings.AUTH_USER_MODEL)

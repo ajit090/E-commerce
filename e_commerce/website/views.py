@@ -1,7 +1,5 @@
 from django.shortcuts import render
 from django.http import HttpResponse,JsonResponse
-from django.views.decorators.csrf import csrf_exempt
-from rest_framework.parsers import JSONParser
 from .models import UserProfile,Item,OrderItem,Payment,Address,Order
 from .serializers import UserProfileSerializer,ItemSerializer,OrderItemSerializer,OrderSerializer,AddressSerializer,PaymentSerializer
 from rest_framework.decorators import api_view
@@ -9,15 +7,13 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.authtoken.models import Token
 from rest_framework.views import APIView
-from rest_framework.authentication import SessionAuthentication,BaseAuthentication
-from rest_framework.permissions import IsAuthenticated,AllowAny,IsAdminUser
 
 
 class UserProfileAPIView(APIView):
 
     def get(self,request):
         userprofile = UserProfile.objects.all()
-        serializer = UserProfileSerializer(userprofile, many=True)
+        serializer = UserProfileSerializer(userprofile,many=True)
         return Response(serializer.data)
 
     
@@ -35,11 +31,10 @@ def User_list(request):
 
     if request.method=='GET':
         userprofile = UserProfile.objects.all()
-        serializer = UserProfileSerializer(companys,many=True)
+        serializer = UserProfileSerializer(userprofile,many=True)
         return Response(serializer.data)
     elif request.method == 'POST':
         serializer=UserProfileSerializer(data=request.data)
-
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -84,14 +79,12 @@ class ItemAPIView(APIView):
 
 @api_view(['GET','POST'])
 def Item_list(request):
-
     if request.method=='GET':
         item = Item.objects.all()
         serializer = ItemSerializer(item,many=True)
         return Response(serializer.data)
     elif request.method == 'POST':
-        serializer=ItemSerializer(data=request.data)
-
+        serializer=ItemSerializer(item,data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -109,7 +102,7 @@ def Item_detail(request, pk):
         serializer = ItemSerializer(item)
         return Response(serializer.data)
     elif request.method == 'PUT':
-        serializer = ItemSerializer(item,data=request.data)
+        serializer = ItemSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
