@@ -10,11 +10,7 @@ urlpatterns = [
     path('detail2/<int:pk>/',OrderItem_detail),
     path('Order/',OrderAPIView.as_view()),
     path('details/<int:pk>/',Order_detail),
-<<<<<<< HEAD
     path('Address/',AddressAPIView.as_view()),
-=======
-    path('Address',AddressAPIView.as_view()),
->>>>>>> edd878153edb8a33fb3c45db5df0cf41352d1cdd
     path('detail3/<int:pk>/',Address_detail),
     path('Payment/',PaymentAPIView.as_view()),
     path('detail4/<int:pk>/',Payment_detail)

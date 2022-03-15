@@ -1,34 +1,18 @@
 from django.shortcuts import render
 from django.http import HttpResponse,JsonResponse
-<<<<<<< HEAD
-=======
-from django.views.decorators.csrf import csrf_exempt
-from rest_framework.parsers import JSONParser
->>>>>>> edd878153edb8a33fb3c45db5df0cf41352d1cdd
 from .models import UserProfile,Item,OrderItem,Payment,Address,Order
 from .serializers import UserProfileSerializer,ItemSerializer,OrderItemSerializer,OrderSerializer,AddressSerializer,PaymentSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
-<<<<<<< HEAD
 from rest_framework.views import APIView
-=======
-from rest_framework.authtoken.models import Token
-from rest_framework.views import APIView
-from rest_framework.authentication import SessionAuthentication,BaseAuthentication
-from rest_framework.permissions import IsAuthenticated,AllowAny,IsAdminUser
->>>>>>> edd878153edb8a33fb3c45db5df0cf41352d1cdd
 
 
 class UserProfileAPIView(APIView):
 
     def get(self,request):
         userprofile = UserProfile.objects.all()
-<<<<<<< HEAD
         serializer = UserProfileSerializer(userprofile,many=True)
-=======
-        serializer = UserProfileSerializer(userprofile, many=True)
->>>>>>> edd878153edb8a33fb3c45db5df0cf41352d1cdd
         return Response(serializer.data)
 
     
@@ -46,18 +30,10 @@ def User_list(request):
 
     if request.method=='GET':
         userprofile = UserProfile.objects.all()
-<<<<<<< HEAD
         serializer = UserProfileSerializer(userprofile,many=True)
         return Response(serializer.data)
     elif request.method == 'POST':
         serializer=UserProfileSerializer(data=request.data)
-=======
-        serializer = UserProfileSerializer(companys,many=True)
-        return Response(serializer.data)
-    elif request.method == 'POST':
-        serializer=UserProfileSerializer(data=request.data)
-
->>>>>>> edd878153edb8a33fb3c45db5df0cf41352d1cdd
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -102,21 +78,12 @@ class ItemAPIView(APIView):
 
 @api_view(['GET','POST'])
 def Item_list(request):
-<<<<<<< HEAD
-=======
-
->>>>>>> edd878153edb8a33fb3c45db5df0cf41352d1cdd
     if request.method=='GET':
         item = Item.objects.all()
         serializer = ItemSerializer(item,many=True)
         return Response(serializer.data)
     elif request.method == 'POST':
-<<<<<<< HEAD
         serializer=ItemSerializer(item,data=request.data)
-=======
-        serializer=ItemSerializer(data=request.data)
-
->>>>>>> edd878153edb8a33fb3c45db5df0cf41352d1cdd
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -134,11 +101,7 @@ def Item_detail(request, pk):
         serializer = ItemSerializer(item)
         return Response(serializer.data)
     elif request.method == 'PUT':
-<<<<<<< HEAD
         serializer = ItemSerializer(data=request.data)
-=======
-        serializer = ItemSerializer(item,data=request.data)
->>>>>>> edd878153edb8a33fb3c45db5df0cf41352d1cdd
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
